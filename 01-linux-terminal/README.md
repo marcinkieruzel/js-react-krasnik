@@ -24,12 +24,12 @@ Wskazówki, gdy utkniesz: `man polecenie`, `polecenie --help`, notatki z prezent
 
 ## Zadanie 1. Środowisko pracy (ok. 1 h)
 
-**Cel.** Masz w terminalu działające: nvm, Node.js 24, npm i Git.
+**Cel.** Masz w terminalu działające: nvm, Node.js w aktualnej wersji LTS, npm i Git.
 
 **Kroki.**
 
-1. Zainstaluj WSL 2 z Ubuntu (Windows) albo otwórz repozytorium w Codespaces. W Codespaces nvm, Node i Git są już gotowe, więc przejdź do sprawdzenia.
-2. Zainstaluj nvm i przez niego Node.js w wersji 24 (polecenia z głównego README). Zamknij i otwórz terminal.
+1. Zainstaluj WSL 2 z Ubuntu (Windows) albo otwórz repozytorium w Codespaces. W Codespaces nvm i Git są już gotowe: wpisz tylko `nvm install --lts` i przejdź do sprawdzenia.
+2. Zainstaluj nvm (polecenia z głównego README), zamknij i otwórz terminal, a potem zainstaluj Node.js w aktualnej wersji LTS: `nvm install --lts`.
 3. Zainstaluj VS Code. W WSL otwórz go tak, żeby był połączony z Ubuntu. W Codespaces jest wbudowany.
 4. Sprawdź wersje: Node, npm i Git.
 
@@ -37,9 +37,9 @@ Wskazówki, gdy utkniesz: `man polecenie`, `polecenie --help`, notatki z prezent
 
 ```text
 uczen@pracownia:~$ node -v
-v24.18.0
+v26.13.1
 uczen@pracownia:~$ npm -v
-11.6.2
+11.20.0
 uczen@pracownia:~$ git --version
 git version 2.43.0
 ```
@@ -170,7 +170,7 @@ bash 01-linux-terminal/sprawdz.sh logi
 
 ```text
 uczen@pracownia:~$ witaj
-Cześć, uczen! Node: v24.18.0
+Cześć, uczen! Node: v26.13.1
 uczen@pracownia:~$ echo $KURS_KATALOG
 /home/uczen/kurs/js-react-krasnik
 uczen@pracownia:~$ command -v witaj

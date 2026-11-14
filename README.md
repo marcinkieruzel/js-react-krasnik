@@ -44,7 +44,7 @@ Jeśli nie chcesz, żeby Twój prawdziwy adres był widoczny w historii, na GitH
 ### Czego potrzebujesz
 
 - WSL 2 (Ubuntu) albo GitHub Codespaces,
-- Node.js 24, instalowany przez nvm,
+- Node.js w aktualnej wersji LTS (w listopadzie 2026: Node.js 26), instalowany przez nvm,
 - VS Code,
 - Git.
 
@@ -52,7 +52,7 @@ Node przez nvm instalujesz dwoma poleceniami (szczegóły w module 1). Po pierws
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh | bash
-nvm install 24
+nvm install --lts
 ```
 
 Każdy moduł zaczyna się od krótkiego opisu w jego `README.md`. Czytaj go przed zadaniami.
@@ -98,6 +98,8 @@ git add -A
 git commit -m "Moduł 1: ćwiczenia"
 git push
 ```
+
+`git push` wpisz w terminalu VS Code (w WSL albo w Codespaces): przy pierwszym wysłaniu VS Code poprosi o zalogowanie do GitHuba. W zwykłym oknie Ubuntu wysyłanie przez HTTPS się nie uda, bo GitHub nie przyjmuje haseł.
 
 3. Na platformie Python Lab otwórz formularz zadań i wklej link do swojego forka.
 
