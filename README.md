@@ -12,29 +12,42 @@ To repozytorium jest szablonem. Nie pracujesz w nim bezpośrednio. Tworzysz wła
 
 1. Na stronie tego repozytorium na GitHubie kliknij zielony przycisk **Use this template**, a potem **Create a new repository**.
 2. Nadaj kopii nazwę, na przykład `js-react-krasnik`. Możesz wybrać repozytorium prywatne albo publiczne. Decyzja należy do Ciebie.
-3. Sklonuj swoją kopię na komputer:
+3. Sklonuj swoją kopię na komputer przez HTTPS (w terminalu WSL, w katalogu domowym):
 
 ```bash
 cd ~
-git clone git@github.com:TWOJ-LOGIN/js-react-krasnik.git
+git clone https://github.com/TWOJ-LOGIN/js-react-krasnik.git
 cd js-react-krasnik
 ```
 
-   Klonowanie przez SSH wymaga klucza. Ustawisz go w module 2. Do tego czasu sklonuj repozytorium przez HTTPS (adres `https://github.com/TWOJ-LOGIN/js-react-krasnik.git`) albo pracuj w GitHub Codespaces.
+   Po module 2 będziesz mieć klucz SSH i wtedy możesz klonować tak: `git clone git@github.com:TWOJ-LOGIN/js-react-krasnik.git`. Na początku używaj HTTPS, bo SSH bez klucza nie zadziała.
 
-Przy pierwszym commicie Git poprosi o imię i adres e-mail. Ustaw je tak (przykładowe dane, wpisz własne):
+   Pracujesz w GitHub Codespaces zamiast na własnym komputerze? Na stronie swojej kopii kliknij **Code → Codespaces → Create codespace on main**. Repozytorium jest tam od razu otwarte, więc pomiń `cd ~` i `git clone`.
+
+### Dane do commitów
+
+Zanim zrobisz pierwszy commit, ustaw w Gicie swoje imię i adres e-mail. To obowiązkowe: bez tego commit się nie uda albo Git wstawi dane zgadnięte z systemu. Poniżej przykładowe dane, wpisz własne:
 
 ```bash
 git config --global user.name "Ola Nowak"
 git config --global user.email "ola.nowak@example.com"
 ```
 
+Jeśli nie chcesz, żeby Twój prawdziwy adres był widoczny w historii, na GitHubie wejdź w **Settings → Emails** i użyj adresu `…@users.noreply.github.com`, który tam znajdziesz.
+
 ### Czego potrzebujesz
 
 - WSL 2 (Ubuntu) albo GitHub Codespaces,
-- Node.js 24 (instalacja przez nvm),
+- Node.js 24, instalowany przez nvm,
 - VS Code,
 - Git.
+
+Node przez nvm instalujesz dwoma poleceniami (szczegóły w module 1). Po pierwszym zamknij i otwórz terminal:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh | bash
+nvm install 24
+```
 
 Każdy moduł zaczyna się od krótkiego opisu w jego `README.md`. Czytaj go przed zadaniami.
 
@@ -56,7 +69,22 @@ Każdy moduł zaczyna się od krótkiego opisu w jego `README.md`. Czytaj go prz
 | 12 | Moduł 12. React — poziom podstawowy | 9 | pojawi się |
 | 13 | Moduł 13. React — poziom zaawansowany | 10 | pojawi się |
 
-Foldery kolejnych modułów będą pojawiać się w szablonie wraz z nowymi materiałami. Nowy folder dostaniesz, tworząc nową kopię z szablonu albo kopiując go z oryginalnego repozytorium.
+## Nowe moduły
+
+Foldery kolejnych modułów pojawiają się w szablonie z czasem. Żeby pobrać je do swojej kopii, połącz ją z szablonem. Robisz to tylko raz:
+
+```bash
+git remote add szablon https://github.com/marcinkieruzel/js-react-krasnik.git
+git pull szablon main --allow-unrelated-histories
+```
+
+Później wystarczy:
+
+```bash
+git pull szablon main
+```
+
+Czym jest `remote`, wyjaśnia moduł 2. Żeby uniknąć konfliktów, nie zmieniaj plików poza folderami modułów, nad którymi pracujesz.
 
 ## Jak oddać zadanie
 
@@ -69,7 +97,7 @@ git commit -m "Moduł 1: ćwiczenia"
 git push
 ```
 
-3. Na platformie Python Lab otwórz formularz zadań i wklej link do swojego repozytorium. Jeśli repozytorium jest prywatne, nadaj opiekunowi kursu dostęp do odczytu.
+3. Na platformie Python Lab otwórz formularz zadań i wklej link do swojego repozytorium. Jeśli repozytorium jest prywatne, dodaj konto `marcinkieruzel` jako współpracownika (Settings → Collaborators).
 
 ## Kontakt
 
