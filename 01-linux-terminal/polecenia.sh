@@ -20,7 +20,7 @@ pliki_css() {
   :
 }
 
-# Wypisz ścieżki zwykłych plików z folderu dane/strona większych niż 100 KB.
+# Wypisz ścieżki zwykłych plików z folderu dane/strona większych niż 20 KB.
 duze_pliki() {
   :
 }
