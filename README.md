@@ -12,17 +12,17 @@ To repozytorium jest wzorem kursu. Nie pracujesz w nim bezpośrednio. Tworzysz w
 
 1. Zaloguj się na GitHubie i otwórz stronę `github.com/marcinkieruzel/js-react-krasnik`.
 2. Kliknij **Fork**, a potem **Create fork**. Powstaje Twoja własna kopia repozytorium. Będzie publiczna, bo tak działają forki publicznych repozytoriów. To normalne w kursach: Twoje rozwiązania staną się portfolio, które możesz pokazać innym.
-3. Sklonuj swój fork na komputer przez HTTPS (w terminalu WSL, w katalogu domowym):
+3. Sklonuj swój fork na komputer przez HTTPS (w terminalu WSL). Wszystkie prace kursowe trzymasz w folderze `~/kurs`:
 
 ```bash
-cd ~
+mkdir -p ~/kurs && cd ~/kurs
 git clone https://github.com/TWOJ-LOGIN/js-react-krasnik.git
 cd js-react-krasnik
 ```
 
    Po module 2 będziesz mieć klucz SSH i wtedy możesz klonować tak: `git clone git@github.com:TWOJ-LOGIN/js-react-krasnik.git`. Na początku używaj HTTPS, bo SSH bez klucza nie zadziała.
 
-   Pracujesz w GitHub Codespaces zamiast na własnym komputerze? Na stronie swojego forka kliknij **Code → Codespaces → Create codespace on main**. Repozytorium jest tam od razu otwarte, więc pomiń `cd ~` i `git clone`.
+   Pracujesz w GitHub Codespaces zamiast na własnym komputerze? Na stronie swojego forka kliknij **Code → Codespaces → Create codespace on main**. Repozytorium jest tam od razu otwarte (w folderze `/workspaces/js-react-krasnik`), więc pomiń `mkdir`, `cd ~/kurs` i `git clone`.
 
 ### Dane do commitów
 
