@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
-# Strażnik modułu 2. Użycie: bash 02-git-github/sprawdz.sh <repo|konflikt|pr|pages|wszystko> [adres-strony]
-# Działa z dowolnego katalogu: ścieżki liczy od własnego położenia. Niczego nie zmienia i nie łączy się z GitHubem
-# (wyjątek: zadanie pages pobiera Twoją stronę).
+# Strażnik modułu 2. Użycie (z głównego folderu repozytorium): bash 02-git-github/sprawdz.sh <repo|konflikt|pr|pages|wszystko> [adres-strony]
+# W folderze modułu: bash sprawdz.sh <zadanie>. Ścieżki liczy od własnego położenia. Niczego nie zmienia i nie łączy się
+# z GitHubem (wyjątek: zadanie pages pobiera Twoją stronę).
+
+# Uruchomiony przez sh (np. sh sprawdz.sh) przechodzi do basha.
+[ -n "$BASH_VERSION" ] || exec bash "$0" "$@"
 
 MOD="$(dirname "$(realpath "$0")")"
 REPO="$(dirname "$MOD")"
@@ -50,7 +53,7 @@ zadanie_repo() {
     if [[ $w_codespaces -eq 1 ]]; then
       info "Codespaces: push przez HTTPS działa bez klucza SSH, więc zmiana origin nie jest wymagana"
     else
-      echo "Brakuje: Repo sklonowane przez HTTPS — przełącz na SSH: zmień adres zdalnego repozytorium origin na adres SSH swojego forka (zaczyna się od git@github.com:), tym samym poleceniem, które dodaje i zmienia adresy remote."
+      echo "Brakuje: Repo sklonowane przez HTTPS — przełącz na SSH: zmień adres zdalnego repozytorium origin na adres SSH swojego forka (zaczyna się od git@github.com:), tym samym poleceniem, które dodaje i zmienia adresy remote. Jeśli połączenie SSH kończy się Connection timed out, README modułu 2 (zadanie 1, krok 4) opisuje SSH przez port 443."
       BRAKI=$((BRAKI + 1))
     fi
   else
@@ -121,11 +124,14 @@ zadanie_konflikt() {
   [[ $scalono -eq 1 ]] || brak "scalenia gałęzi przepis-babci do main (na main ma być commit scalający)"
 
   if [[ ! -f "$plik" ]]; then brak "pliku konflikt/przepis.md"; return; fi
-  if grep -qE '^(<<<<<<<|=======$|>>>>>>>)' "$plik"; then
+  # Linie porównujemy bez końcowych spacji i znaków \r (edytor w Windowsie), których nie widać na ekranie.
+  local tresc
+  tresc="$(sed 's/[[:space:]]*$//' "$plik")"
+  if grep -qE '^(<<<<<<<|=======$|>>>>>>>)' <<<"$tresc"; then
     brak "usunięcia z przepis.md: w pliku nadal są znaczniki konfliktu (linie <<<<<<<, ======= i >>>>>>>)"
   fi
-  grep -qxF -- '- 3 łyżki cukru' "$plik" || brak "w przepis.md linii ze zmianą z main (więcej cukru)"
-  grep -qxF -- '- 2 łyżki miodu' "$plik" || brak "w przepis.md linii ze zmianą z gałęzi przepis-babci (miód)"
+  grep -qxF -- '- 3 łyżki cukru' <<<"$tresc" || brak "w przepis.md linii ze zmianą z main (więcej cukru)"
+  grep -qxF -- '- 2 łyżki miodu' <<<"$tresc" || brak "w przepis.md linii ze zmianą z gałęzi przepis-babci (miód)"
 }
 
 # ---------------------------------------------------------------- pr
@@ -152,6 +158,8 @@ zadanie_pages() {
     return
   fi
   command -v curl >/dev/null 2>&1 || { brak "polecenia curl"; return; }
+  # Przyjmuje adres główny, adres strony i adres pliku: …/js-react-krasnik, …/02-git-github/strona/, …/strona/index.html
+  adres="${adres%/index.html}"
   adres="${adres%/}"
   adres="${adres%/02-git-github/strona}"
   local url="$adres/02-git-github/strona/" tresc blad
@@ -188,7 +196,8 @@ case "${1:-}" in
     uruchom pages "${2:-}"
     ;;
   *)
-    echo "Użycie: bash 02-git-github/sprawdz.sh <repo|konflikt|pr|pages|wszystko> [adres-strony]"
+    echo "Użycie (z głównego folderu repozytorium): bash 02-git-github/sprawdz.sh <repo|konflikt|pr|pages|wszystko> [adres-strony]"
+    echo "W folderze modułu 02-git-github: bash sprawdz.sh <zadanie> [adres-strony]"
     exit 2
     ;;
 esac

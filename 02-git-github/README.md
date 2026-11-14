@@ -10,11 +10,13 @@ Wszystkie polecenia wpisujesz w terminalu WSL (Ubuntu) albo w terminalu Codespac
 
 ## Jak sprawdzić swoją pracę
 
-Po każdym zadaniu uruchom strażnika. Możesz to zrobić z dowolnego folderu:
+Po każdym zadaniu uruchom strażnika z głównego folderu repozytorium (`~/kurs/js-react-krasnik`, w Codespaces `/workspaces/js-react-krasnik`):
 
 ```bash
 bash 02-git-github/sprawdz.sh <zadanie>
 ```
+
+Jeśli jesteś w folderze modułu (`02-git-github`), wpisz krócej: `bash sprawdz.sh <zadanie>`.
 
 Zamiast `<zadanie>` wpisz: `repo`, `konflikt`, `pr`, `pages` albo `wszystko`. Zadanie `pages` wymaga adresu Twojej strony jako drugiego słowa (opis w zadaniu 4), a `wszystko` przyjmuje ten adres tak samo. Strażnik mówi, czego brakuje (linie `Brakuje: ...`), ale nie podaje gotowych poleceń. Gdy wszystko jest dobrze, wypisuje `OK` i kończy się kodem 0. Strażnik niczego nie zmienia i (poza `pages`) nie łączy się z internetem: patrzy tylko na Twoje lokalne repozytorium.
 
@@ -33,13 +35,26 @@ Dwie rzeczy, które pomagają przy całym module:
 
 **Kroki.**
 
-1. Upewnij się, że masz konto GitHub, fork `js-react-krasnik` i klon w `~/kurs/js-react-krasnik` (zrobiłaś to w module 1) oraz ustawione `user.name` i `user.email` (główne README, sekcja „Dane do commitów”).
+1. Konto GitHub, fork `js-react-krasnik` i klon w `~/kurs/js-react-krasnik` masz z modułu 1 (główne README, sekcja „Jak zacząć”). Upewnij się też, że masz ustawione `user.name` i `user.email` (główne README, sekcja „Dane do commitów”).
 2. Utwórz klucz SSH typu ed25519: `ssh-keygen -t ed25519 -C "ola.nowak@example.com"` (wpisz własny adres albo adres `…@users.noreply.github.com`). Na pytania o plik i hasło możesz odpowiedzieć Enterem. Powstają dwa pliki w `~/.ssh`: `id_ed25519` (prywatny, nigdy go nikomu nie pokazuj) i `id_ed25519.pub` (publiczny).
 3. Wyświetl klucz publiczny (`cat ~/.ssh/id_ed25519.pub`) i skopiuj całą linię. Na GitHubie kliknij swoje zdjęcie profilowe (prawy górny róg), wybierz **Settings** (ustawienia konta, nie repozytorium), potem **SSH and GPG keys → New SSH key**, wklej klucz, nadaj mu nazwę (np. „laptop WSL”) i zapisz.
 4. Sprawdź połączenie: `ssh -T git@github.com`. Przy pierwszym razie wpisz `yes`. Poprawny wynik zaczyna się od „Hi TWOJ-LOGIN! You've successfully authenticated”.
+
+   Jeśli `ssh -T git@github.com` długo nic nie wypisuje i kończy się komunikatem `Connection timed out`, sieć (np. szkolna) blokuje port 22, którego używa SSH. GitHub przyjmuje połączenia SSH także na porcie 443 (docs.github.com, „Using SSH over the HTTPS port”). Otwórz plik `~/.ssh/config` (`code ~/.ssh/config` albo `nano ~/.ssh/config`; jeśli pliku nie ma, edytor go utworzy) i wpisz:
+
+```text
+Host github.com
+  Hostname ssh.github.com
+  Port 443
+  User git
+```
+
+   Zapisz plik i jeszcze raz wpisz `ssh -T git@github.com`. Pytanie o zaufanie do serwera pojawi się znowu (tym razem dla `[ssh.github.com]:443`): odpowiedz `yes`. Jeśli i to nie działa, łącz się z GitHubem z innej sieci, np. domowej.
 5. Przełącz zdalne repozytorium `origin` z adresu HTTPS na SSH. Zobacz obecny adres poleceniem `git remote -v`, a potem zmień go poleceniem `git remote set-url origin <adres>`. Adres SSH swojego forka skopiujesz z przycisku **Code → SSH** na GitHubie (ma postać `git@github.com:TWOJ-LOGIN/js-react-krasnik.git`).
 6. Dodaj oryginalne repozytorium kursu jako zdalne repozytorium `upstream`: `git remote add upstream git@github.com:marcinkieruzel/js-react-krasnik.git`. Sprawdź: `git remote -v` pokazuje `origin` (Twój fork) i `upstream` (oryginał).
 7. Zapisz rozwiązania modułu 1 w Gicie i wyślij je na GitHuba: `git status`, `git add -A`, `git commit -m "<opis>"`, `git push`. Opis commita ma mówić, co zrobiłaś, np. „Moduł 1: struktura projektu i polecenia do logów”, a nie „zmiany” albo „aaa”.
+
+   Moduł 1 wysłałaś już wcześniej (`git status` pisze `nothing to commit, working tree clean`)? Wtedy masz już swój commit i nie musisz robić nowego. Wpisz tylko `git push`: odpowiedź `Everything up-to-date` znaczy, że wysyłanie przez SSH działa.
 
 **Sync fork a `upstream`.** Są dwa sposoby pobierania nowych modułów z oryginału:
 
@@ -134,7 +149,7 @@ Strażnik sprawdza: na `main` jest commit scalający z gałęzią `przepis-babci
 **Kroki.**
 
 1. Stań na `main` i utwórz gałąź: `git switch -c opis-o-mnie`.
-2. Utwórz plik `02-git-github/o-mnie.md` z kilkoma zdaniami o sobie (co robisz, czego się uczysz, co Cię interesuje). Strażnik wymaga co najmniej 3 niepustych linii.
+2. Utwórz plik `02-git-github/o-mnie.md` z kilkoma zdaniami o sobie (co robisz, czego się uczysz, co Cię interesuje). Plik jest publiczny, jak cały fork: nie musisz podawać nazwiska ani kontaktu. Strażnik wymaga co najmniej 3 niepustych linii.
 3. Zapisz i wyślij gałąź: `git add -A`, `git commit -m "<opis>"`, `git push -u origin opis-o-mnie`.
 4. Na stronie swojego forka na GitHubie kliknij żółty pasek **Compare & pull request** (albo **Pull requests → New pull request**).
 5. **Ustaw base repository na swój fork.** To najważniejszy krok. GitHub domyślnie ustawia bazę na oryginalne repozytorium kursu. Na górze strony porównania kliknij lewą listę **base repository** i wybierz `TWOJ-LOGIN/js-react-krasnik` (nie `marcinkieruzel/...`). Obok ma być `base: main` i `compare: opis-o-mnie`. Pod listami nie powinno być komunikatu o różnicach w innym repozytorium.
@@ -171,10 +186,10 @@ Strażnik sprawdza: w historii `main` jest commit „Merge pull request #… fro
 
 **Kroki.**
 
-1. Otwórz `02-git-github/strona/index.html` i zastąp wszystkie teksty `TODO`: tytuł strony (w `<title>`), imię w nagłówku, jedno zdanie o sobie i dwa linki (np. do Twojego profilu na GitHubie i do repozytorium kursu). Linki muszą zaczynać się od `https://`.
+1. Otwórz `02-git-github/strona/index.html` i zastąp wszystkie teksty `TODO`: tytuł strony (w `<title>`), imię w nagłówku, jedno zdanie o sobie i dwa linki (np. do Twojego profilu na GitHubie i do repozytorium kursu). Linki muszą zaczynać się od `https://`. Strona jest publiczna: nie musisz podawać nazwiska ani kontaktu, wystarczy imię albo pseudonim.
 2. Zapisz zmiany w Gicie i wyślij je: `git add -A`, `git commit -m "<opis>"`, `git push`.
 3. Na stronie forka na GitHubie wejdź w **Settings → Pages**. W sekcji **Build and deployment** wybierz **Source: Deploy from a branch**, **Branch: main**, folder **/ (root)** i kliknij **Save**.
-4. Poczekaj minutę lub dwie i odśwież stronę ustawień: pojawi się adres `https://TWOJ-LOGIN.github.io/js-react-krasnik/`. GitHub Pages publikuje cały folder repozytorium, więc Twoja strona jest pod adresem z dopisaną ścieżką: `https://TWOJ-LOGIN.github.io/js-react-krasnik/02-git-github/strona/`. Otwórz go w przeglądarce.
+4. Poczekaj minutę lub dwie i odśwież stronę ustawień: pojawi się adres `https://TWOJ-LOGIN.github.io/js-react-krasnik/`. GitHub Pages publikuje cały folder repozytorium, więc Twoja strona jest pod adresem z dopisaną ścieżką: `https://TWOJ-LOGIN.github.io/js-react-krasnik/02-git-github/strona/`. Otwórz go w przeglądarce. Sam adres główny (bez ścieżki) pokaże błąd 404: to normalne, bo w głównym folderze repozytorium nie ma strony.
 
 **Sprawdzenie.** Przekaż strażnikowi adres główny (bez ścieżki, ścieżkę dopisze sam):
 

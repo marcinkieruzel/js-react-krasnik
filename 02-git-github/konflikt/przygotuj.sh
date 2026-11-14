@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # Przygotowuje zadanie "konflikt": tworzy gałąź przepis-babci ze zmianą w przepis.md
 # i sprzeczną zmianę na main. Zmienia tylko plik konflikt/przepis.md.
-# Użycie (z dowolnego folderu): bash 02-git-github/konflikt/przygotuj.sh
+# Użycie (z głównego folderu repozytorium): bash 02-git-github/konflikt/przygotuj.sh
+
+# Uruchomiony przez sh przechodzi do basha.
+[ -n "$BASH_VERSION" ] || exec bash "$0" "$@"
 
 KONF="$(dirname "$(realpath "$0")")"
 PLIK="02-git-github/konflikt/przepis.md"
