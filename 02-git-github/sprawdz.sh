@@ -90,7 +90,7 @@ zadanie_repo() {
   else
     local przed
     przed="$(g rev-list --count origin/main..main)"
-    [[ "$przed" -eq 0 ]] || brak "wysłania zmian: Twój main ma $przed commit(y) więcej niż origin/main. Wykonaj git push"
+    [[ "$przed" -eq 0 ]] || brak "wysłania zmian: Twój main ma $przed commit(y) więcej niż origin/main. Wyślij je poleceniem git push"
   fi
 }
 
@@ -134,8 +134,8 @@ zadanie_pr() {
   if ! jest_repo; then brak "repozytorium Git (ten folder nie ma historii Gita)"; return; fi
   if ! g show-ref --verify --quiet refs/heads/main; then brak "gałęzi main"; return; fi
 
-  if ! g log main --merges --format=%s | grep -qE '^Merge pull request #[0-9]+ from .*/opis-o-mnie$'; then
-    brak "w historii main commitu „Merge pull request #...” z gałęzi opis-o-mnie (scal pull request przyciskiem na GitHubie, a potem pobierz zmiany do lokalnego main)"
+  if ! g log main --merges --format=%s | grep -qE '^Merge pull request #[0-9]+ from .*/opis-o-mnie[^/ ]*$'; then
+    brak "w historii main commitu „Merge pull request #...” z gałęzi opis-o-mnie. Pull request musi być scalony zwykłym scaleniem („Create a merge commit”), nie przez „Squash and merge” ani „Rebase and merge”. Jeśli scaliłaś inaczej, README (zadanie 3) opisuje, jak to powtórzyć na nowej gałęzi opis-o-mnie-2. Po scaleniu pobierz zmiany do lokalnego main"
   fi
   if [[ ! -f "$o" ]]; then
     brak "pliku 02-git-github/o-mnie.md"
@@ -167,7 +167,7 @@ zadanie_pages() {
     brak "uzupełnienia strony: na stronie nadal jest tekst TODO (opublikowana jest wersja ze szkieletu)"
   fi
   local linki
-  linki="$(grep -oiE '<a [^>]*href="https?://[^"]+"' <<<"$tresc" | wc -l | tr -d '[:space:]')"
+  linki="$(tr '\n\r' '  ' <<<"$tresc" | grep -oiE "<a[[:space:]][^>]*href[[:space:]]*=[[:space:]]*[\"']https?://[^\"']+[\"']" | wc -l | tr -d '[:space:]')"
   [[ "$linki" -ge 2 ]] || brak "co najmniej 2 linków (adresów zaczynających się od http) na stronie (jest $linki)"
 }
 

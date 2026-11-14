@@ -35,7 +35,7 @@ Dwie rzeczy, które pomagają przy całym module:
 
 1. Upewnij się, że masz konto GitHub, fork `js-react-krasnik` i klon w `~/kurs/js-react-krasnik` (zrobiłaś to w module 1) oraz ustawione `user.name` i `user.email` (główne README, sekcja „Dane do commitów”).
 2. Utwórz klucz SSH typu ed25519: `ssh-keygen -t ed25519 -C "ola.nowak@example.com"` (wpisz własny adres albo adres `…@users.noreply.github.com`). Na pytania o plik i hasło możesz odpowiedzieć Enterem. Powstają dwa pliki w `~/.ssh`: `id_ed25519` (prywatny, nigdy go nikomu nie pokazuj) i `id_ed25519.pub` (publiczny).
-3. Wyświetl klucz publiczny (`cat ~/.ssh/id_ed25519.pub`) i skopiuj całą linię. Na GitHubie wejdź w **Settings → SSH and GPG keys → New SSH key**, wklej klucz, nadaj mu nazwę (np. „laptop WSL”) i zapisz.
+3. Wyświetl klucz publiczny (`cat ~/.ssh/id_ed25519.pub`) i skopiuj całą linię. Na GitHubie kliknij swoje zdjęcie profilowe (prawy górny róg), wybierz **Settings** (ustawienia konta, nie repozytorium), potem **SSH and GPG keys → New SSH key**, wklej klucz, nadaj mu nazwę (np. „laptop WSL”) i zapisz.
 4. Sprawdź połączenie: `ssh -T git@github.com`. Przy pierwszym razie wpisz `yes`. Poprawny wynik zaczyna się od „Hi TWOJ-LOGIN! You've successfully authenticated”.
 5. Przełącz zdalne repozytorium `origin` z adresu HTTPS na SSH. Zobacz obecny adres poleceniem `git remote -v`, a potem zmień go poleceniem `git remote set-url origin <adres>`. Adres SSH swojego forka skopiujesz z przycisku **Code → SSH** na GitHubie (ma postać `git@github.com:TWOJ-LOGIN/js-react-krasnik.git`).
 6. Dodaj oryginalne repozytorium kursu jako zdalne repozytorium `upstream`: `git remote add upstream git@github.com:marcinkieruzel/js-react-krasnik.git`. Sprawdź: `git remote -v` pokazuje `origin` (Twój fork) i `upstream` (oryginał).
@@ -95,7 +95,7 @@ Strażnik sprawdza: jest klucz SSH, `origin` używa SSH, `upstream` wskazuje ory
 ```
 
    Część między `<<<<<<< HEAD` a `=======` to wersja z `main`, a część do `>>>>>>> przepis-babci` to wersja z gałęzi. Zostaw w pliku obie linie ze składnikami, a trzy linie ze znacznikami usuń.
-5. Zapisz plik, a potem `git add 02-git-github/konflikt/przepis.md` i `git commit` (otworzy się edytor z gotowym komunikatem „Merge branch 'przepis-babci'”: zapisz go Ctrl+O, Enter, Ctrl+X). Zrobiłaś commit scalający.
+5. Zapisz plik, a potem `git add 02-git-github/konflikt/przepis.md` i `git commit` (otworzy się edytor z gotowym komunikatem „Merge branch 'przepis-babci'”: zapisz go Ctrl+O, Enter, Ctrl+X; w Codespaces otworzy się karta edytora VS Code: zamknij ją, żeby dokończyć commit; możesz też od razu wpisać `git commit --no-edit`). Zrobiłaś commit scalający.
 6. Wyślij wynik: `git push`.
 
 **Oczekiwany wynik.** W `git log --oneline --graph` widać rozwidlenie i commit scalający, a w pliku obie linie:
@@ -134,6 +134,8 @@ Strażnik sprawdza: na `main` jest commit scalający z gałęzią `przepis-babci
 5. **Ustaw base repository na swój fork.** To najważniejszy krok. GitHub domyślnie ustawia bazę na oryginalne repozytorium kursu. Na górze strony porównania kliknij lewą listę **base repository** i wybierz `TWOJ-LOGIN/js-react-krasnik` (nie `marcinkieruzel/...`). Obok ma być `base: main` i `compare: opis-o-mnie`. Pod listami nie powinno być komunikatu o różnicach w innym repozytorium.
 6. Nadaj pull requestowi tytuł, kliknij **Create pull request**.
 7. Kliknij zielony **Merge pull request**, a potem **Confirm merge**. Zostaw domyślny sposób „Create a merge commit”: strażnik szuka właśnie takiego commita (nie wybieraj „Squash and merge” ani „Rebase and merge”).
+
+   Jeśli scaliłaś inaczej i strażnik nie widzi commita „Merge pull request”, nie próbuj tego cofać. Zrób to jeszcze raz na nowej gałęzi: `git switch main`, `git pull`, `git switch -c opis-o-mnie-2`, dopisz jedno zdanie do `02-git-github/o-mnie.md`, `git add -A`, `git commit -m "<opis>"`, `git push -u origin opis-o-mnie-2`, otwórz nowy pull request (base repository: Twój fork) i tym razem scal go zwykłym „Create a merge commit”. Potem `git switch main` i `git pull`.
 8. W terminalu wróć na `main` i pobierz scaloną zmianę: `git switch main`, `git pull` (jeśli otworzy się edytor: Ctrl+O, Enter, Ctrl+X albo `git pull --no-edit`).
 
 Gdybyś przez pomyłkę otworzyła pull request do oryginalnego repozytorium kursu, nic złego się nie stało: nie ma on wpływu na nikogo, bo właściciel go nie scali. Otwórz stronę tego pull requesta i kliknij **Close pull request**, a potem utwórz poprawny we własnym forku.
@@ -180,11 +182,11 @@ Strażnik sprawdza: strona odpowiada (kod 200), ma `<title>`, nie zawiera już t
 
 ## Na koniec
 
-Uruchom wszystko naraz (z adresem strony) i wyślij wynik na GitHuba:
+Najpierw wyślij wszystkie zmiany na GitHuba (strażnik `repo` sprawdza, czy nic nie zostało niewysłane), a potem uruchom wszystko naraz z adresem strony:
 
 ```bash
-bash 02-git-github/sprawdz.sh wszystko https://TWOJ-LOGIN.github.io/js-react-krasnik
 git push
+bash 02-git-github/sprawdz.sh wszystko https://TWOJ-LOGIN.github.io/js-react-krasnik
 ```
 
 Potem na platformie Python Lab wklej link do swojego forka (instrukcja w głównym README, sekcja „Jak oddać zadanie”).
