@@ -48,7 +48,13 @@ Dwie rzeczy, które pomagają przy całym module:
 
 Oba sposoby dają ten sam wynik. `upstream` jest też Twoim zabezpieczeniem, gdyby przycisk **Sync fork** był niedostępny.
 
-**Codespaces.** W Codespaces nie musisz tworzyć klucza SSH ani przełączać `origin`: `git push` działa tam przez HTTPS z automatycznym logowaniem. Wykonaj kroki 6 i 7. Strażnik wypisze wtedy tylko informację, że HTTPS wystarcza.
+**Codespaces.** W Codespaces nie musisz tworzyć klucza SSH ani przełączać `origin`: `git push` działa tam przez HTTPS z automatycznym logowaniem. Wykonaj kroki 6 i 7, ale w kroku 6 dodaj `upstream` przez HTTPS (adres SSH bez klucza nie zadziała, więc `git pull upstream main` skończyłby się błędem):
+
+```bash
+git remote add upstream https://github.com/marcinkieruzel/js-react-krasnik.git
+```
+
+Strażnik wypisze wtedy tylko informację, że HTTPS wystarcza.
 
 **Oczekiwany wynik.**
 
