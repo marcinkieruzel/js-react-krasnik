@@ -10,9 +10,12 @@ To repozytorium jest wzorem kursu. Nie pracujesz w nim bezpośrednio. Tworzysz w
 
 ## Jak zacząć
 
-1. Zaloguj się na GitHubie i otwórz stronę `github.com/marcinkieruzel/js-react-krasnik`.
-2. Kliknij **Fork**, a potem **Create fork**. Powstaje Twoja własna kopia repozytorium. Będzie publiczna, bo tak działają forki publicznych repozytoriów. To normalne w kursach: Twoje rozwiązania staną się portfolio, które możesz pokazać innym.
-3. Sklonuj swój fork na komputer przez HTTPS (w terminalu WSL). Wszystkie prace kursowe trzymasz w folderze `~/kurs`:
+1. Nie masz konta na GitHubie? Załóż je na stronie `github.com/signup`: podajesz adres e-mail, hasło i login, a GitHub wysyła na e-mail kod, którym potwierdzasz adres.
+   - Login będzie częścią publicznych adresów Twojego forka i Twojej strony (np. `github.com/TWOJ-LOGIN/js-react-krasnik`). Wybierz neutralny: nie musi zawierać imienia ani nazwiska.
+   - Włącz weryfikację dwuetapową (2FA). GitHub wymaga jej od osób, które wysyłają kod, więc i tak o nią poprosi. Kliknij swoje zdjęcie profilowe (prawy górny róg) → **Settings → Password and authentication → Enable two-factor authentication** i wybierz aplikację uwierzytelniającą w telefonie. Kody odzyskiwania (recovery codes) zapisz w bezpiecznym miejscu: bez nich zgubiony telefon oznacza utratę dostępu do konta.
+2. Zaloguj się na GitHubie i otwórz stronę `github.com/marcinkieruzel/js-react-krasnik`.
+3. Kliknij **Fork**, a potem **Create fork**. Powstaje Twoja własna kopia repozytorium. Będzie publiczna, bo tak działają forki publicznych repozytoriów. To normalne w kursach: Twoje rozwiązania staną się portfolio, które możesz pokazać innym.
+4. Sklonuj swój fork na komputer przez HTTPS (w terminalu WSL). Wszystkie prace kursowe trzymasz w folderze `~/kurs`:
 
 ```bash
 mkdir -p ~/kurs && cd ~/kurs
@@ -22,7 +25,7 @@ cd js-react-krasnik
 
    Po module 2 będziesz mieć klucz SSH i wtedy możesz klonować tak: `git clone git@github.com:TWOJ-LOGIN/js-react-krasnik.git`. Na początku używaj HTTPS, bo SSH bez klucza nie zadziała.
 
-   Pracujesz w GitHub Codespaces zamiast na własnym komputerze? Na stronie swojego forka kliknij **Code → Codespaces → Create codespace on main**. Repozytorium jest tam od razu otwarte (w folderze `/workspaces/js-react-krasnik`), więc pomiń `mkdir`, `cd ~/kurs` i `git clone`.
+   Pracujesz w GitHub Codespaces zamiast na własnym komputerze? Na stronie swojego forka kliknij **Code → Codespaces → Create codespace on main**. Repozytorium jest tam od razu otwarte (w folderze `/workspaces/js-react-krasnik`), więc pomiń `mkdir`, `cd ~/kurs` i `git clone`. Codespace, którego nie używasz przez 30 dni, GitHub usuwa razem ze wszystkim, czego nie wysłałaś do forka. Dlatego po każdej sesji zapisz pracę commitem i wyślij ją poleceniem `git push` (sekcja „Jak oddać zadanie”).
 
 ### Dane do commitów
 
@@ -55,6 +58,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh | bash
 nvm install --lts
 ```
 
+W Codespaces nvm już jest. Wpisz tylko `nvm install --lts`, a potem `nvm alias default lts/*`: drugie polecenie sprawia, że każdy nowy terminal (i skrypt sprawdzający) używa tej wersji Node.js.
+
 Każdy moduł zaczyna się od krótkiego opisu w jego `README.md`. Czytaj go przed zadaniami.
 
 ## Moduły
@@ -86,18 +91,20 @@ Foldery kolejnych modułów pojawiają się w repozytorium kursu z czasem. Żeby
 git pull
 ```
 
+Jeśli GitHub zamiast **Update branch** proponuje **Discard N commits** (N to liczba), nie klikaj tego przycisku: usuwa on z forka Twoje commity, czyli Twoje rozwiązania. Pobierz wtedy nowy moduł w terminalu przez `upstream` (moduł 2, zadanie 1) albo napisz do opiekuna kursu.
+
 Jeśli `git pull` utworzy scalenie (merge) i otworzy edytor z komunikatem, zapisz go i zamknij: w nano Ctrl+O, Enter, Ctrl+X. Możesz też od razu wpisać `git pull --no-edit`.
 
 Jeśli GitHub albo `git pull` zgłosi konflikt (zdarza się tylko wtedy, gdy autor kursu zmienił plik, który Ty też edytowałaś), niczego nie usuwaj i nie rozwiązuj go na ślepo. Napisz do opiekuna kursu przez platformę Python Lab. Czym jest fork i zdalne repozytorium (remote), wyjaśnia moduł 2. Tam też uczysz się rozwiązywać konflikty, ale to dotyczy Twoich własnych zmian: konflikt z aktualizacją kursu zgłoś opiekunowi.
 
 ## Jak oddać zadanie
 
-1. Skończ zadanie i uruchom skrypt sprawdzający z folderu modułu.
-2. Zapisz zmiany w Gicie i wyślij je do swojego forka:
+1. Skończ zadanie i uruchom skrypt sprawdzający z głównego folderu repozytorium (`~/kurs/js-react-krasnik`, w Codespaces `/workspaces/js-react-krasnik`): `bash 01-linux-terminal/sprawdz.sh …` (z folderem modułu, nad którym pracujesz). Jeśli jesteś w folderze modułu: `bash sprawdz.sh …`.
+2. Zapisz zmiany w Gicie i wyślij je do swojego forka. W opisie commita zamiast `N` wpisz numer modułu, a po dwukropku krótko, co zrobiłaś, np. „Moduł 1: struktura projektu i polecenia do logów”:
 
 ```bash
 git add -A
-git commit -m "Moduł 1: ćwiczenia"
+git commit -m "Moduł N: co zrobiłaś"
 git push
 ```
 
