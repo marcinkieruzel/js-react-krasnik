@@ -16,7 +16,7 @@ Po każdym zadaniu uruchom strażnika. Możesz to zrobić z dowolnego folderu:
 bash 01-linux-terminal/sprawdz.sh <zadanie>
 ```
 
-Zamiast `<zadanie>` wpisz: `srodowisko`, `struktura`, `logi`, `path` albo `wszystko`. Strażnik mówi, czego brakuje (linie `Brakuje: ...`). Nie podaje gotowych poleceń, bo to Ty masz je znaleźć. Gdy wszystko jest dobrze, wypisuje `OK` i kończy się kodem 0. Strażnik niczego nie zmienia w Twoich plikach z rozwiązaniami (poza plikami `dane/bledy.txt` i `dane/raport.txt`, które sam tworzy do testu).
+Zamiast `<zadanie>` wpisz: `srodowisko`, `struktura`, `logi`, `path` albo `wszystko`. Strażnik mówi, czego brakuje (linie `Brakuje: ...`). Nie podaje gotowych poleceń, bo to Ty masz je znaleźć. Gdy wszystko jest dobrze, wypisuje `OK` i kończy się kodem 0. Strażnik nie zmienia Twoich plików.
 
 Wskazówki, gdy utkniesz: `man polecenie`, `polecenie --help`, notatki z prezentacji.
 
@@ -123,7 +123,7 @@ bash 01-linux-terminal/sprawdz.sh struktura
 | `ile_404` | wypisuje liczbę linii logu z kodem 404 |
 | `najczestszy_ip` | wypisuje najczęstszy adres IP |
 | `pliki_css` | wypisuje ścieżki plików `.css` z `dane/strona` |
-| `duze_pliki` | wypisuje pliki z `dane/strona` większe niż 100 KB |
+| `duze_pliki` | wypisuje pliki z `dane/strona` większe niż 20 KB |
 | `zapisz_bledy` | zapisuje linie z kodem 404 lub 500 do `dane/bledy.txt` (przekierowanie `>`) |
 | `dopisz_raport` | dopisuje do `dane/raport.txt` linię `Linie w logu: <liczba>` (przekierowanie `>>`) |
 

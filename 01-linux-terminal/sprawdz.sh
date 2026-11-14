@@ -89,8 +89,9 @@ zadanie_struktura() {
 
 # ---------------------------------------------------------------- logi
 # Uruchamia funkcję z polecenia.sh w folderze modułu i wypisuje jej standardowe wyjście.
+# Drugi argument (opcjonalny): folder roboczy zamiast folderu modułu.
 uruchom_funkcje() {
-  (cd "$MOD" && timeout 20 bash -c 'source ./polecenia.sh >/dev/null 2>&1; "$1"' _ "$1" 2>/dev/null)
+  (cd "${2:-$MOD}" && timeout 20 bash -c 'source "$3" >/dev/null 2>&1; "$1"' _ "$1" "" "$MOD/polecenia.sh" 2>/dev/null)
 }
 
 funkcja_istnieje() {
@@ -146,28 +147,34 @@ zadanie_logi() {
 
   if funkcja_istnieje duze_pliki; then
     wynik="$(uruchom_funkcje duze_pliki | sed 's|.*/||' | sort)"
-    oczekiwany="$(find "$MOD/dane/strona" -type f -size +102400c -printf '%f\n' | sort)"
+    oczekiwany="$(find "$MOD/dane/strona" -type f -size +20480c -printf '%f\n' | sort)"
     porownaj_wyniki duze_pliki "$wynik" "$oczekiwany"
   fi
 
+  # Funkcje zapisujące pliki uruchamiamy na tymczasowej kopii folderu dane, więc Twoje pliki zostają nietknięte.
+  local tmp
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+  cp -a "$MOD/dane" "$tmp/dane"
+  rm -f "$tmp/dane/bledy.txt" "$tmp/dane/raport.txt"
+
   if funkcja_istnieje zapisz_bledy; then
-    rm -f "$MOD/dane/bledy.txt"
-    uruchom_funkcje zapisz_bledy >/dev/null
-    if [[ ! -f "$MOD/dane/bledy.txt" ]]; then
+    uruchom_funkcje zapisz_bledy "$tmp" >/dev/null
+    if [[ ! -f "$tmp/dane/bledy.txt" ]]; then
       brak "pliku dane/bledy.txt po uruchomieniu funkcji zapisz_bledy"
-    elif ! cmp -s "$MOD/dane/bledy.txt" <(awk '$9 == 404 || $9 == 500' "$log"); then
+    elif ! cmp -s "$tmp/dane/bledy.txt" <(awk '$9 == 404 || $9 == 500' "$log"); then
       brak "poprawnej zawartości dane/bledy.txt po uruchomieniu funkcji zapisz_bledy"
     fi
   fi
 
   if funkcja_istnieje dopisz_raport; then
-    printf 'Raport serwera\n' >"$MOD/dane/raport.txt"
-    uruchom_funkcje dopisz_raport >/dev/null
+    printf 'Raport serwera\n' >"$tmp/dane/raport.txt"
+    uruchom_funkcje dopisz_raport "$tmp" >/dev/null
     local linie
     linie="$(wc -l <"$log" | tr -d '[:space:]')"
-    if [[ "$(head -n 1 "$MOD/dane/raport.txt")" != "Raport serwera" ]]; then
+    if [[ "$(head -n 1 "$tmp/dane/raport.txt")" != "Raport serwera" ]]; then
       brak "dopisywania w funkcji dopisz_raport (stara zawartość raport.txt zniknęła)"
-    elif ! tail -n 1 "$MOD/dane/raport.txt" | grep -qw "$linie" || [[ "$(wc -l <"$MOD/dane/raport.txt")" -ne 2 ]]; then
+    elif ! tail -n 1 "$tmp/dane/raport.txt" | grep -qw "$linie" || [[ "$(wc -l <"$tmp/dane/raport.txt")" -ne 2 ]]; then
       brak "w funkcji dopisz_raport jednej nowej linii z liczbą linii pliku serwer.log"
     fi
   fi
