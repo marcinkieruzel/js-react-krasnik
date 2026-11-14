@@ -86,7 +86,9 @@ Foldery kolejnych modułów pojawiają się w repozytorium kursu z czasem. Żeby
 git pull
 ```
 
-Jeśli GitHub zgłosi konflikt (zdarza się tylko wtedy, gdy autor kursu zmienił plik, który Ty też edytowałaś), niczego nie usuwaj. Napisz do opiekuna kursu przez platformę Python Lab. Czym jest fork i zdalne repozytorium (remote), wyjaśnia moduł 2.
+Jeśli `git pull` utworzy scalenie (merge) i otworzy edytor z komunikatem, zapisz go i zamknij: w nano Ctrl+O, Enter, Ctrl+X. Możesz też od razu wpisać `git pull --no-edit`.
+
+Jeśli GitHub albo `git pull` zgłosi konflikt (zdarza się tylko wtedy, gdy autor kursu zmienił plik, który Ty też edytowałaś), niczego nie usuwaj i nie rozwiązuj go na ślepo. Napisz do opiekuna kursu przez platformę Python Lab. Czym jest fork i zdalne repozytorium (remote), wyjaśnia moduł 2. Tam też uczysz się rozwiązywać konflikty, ale to dotyczy Twoich własnych zmian: konflikt z aktualizacją kursu zgłoś opiekunowi.
 
 ## Jak oddać zadanie
 
