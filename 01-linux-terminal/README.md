@@ -10,11 +10,13 @@ Wszystkie polecenia wpisujesz w terminalu WSL (Ubuntu) albo w terminalu Codespac
 
 ## Jak sprawdzić swoją pracę
 
-Po każdym zadaniu uruchom strażnika. Możesz to zrobić z dowolnego folderu:
+Po każdym zadaniu uruchom strażnika z głównego folderu repozytorium (`~/kurs/js-react-krasnik`, w Codespaces `/workspaces/js-react-krasnik`):
 
 ```bash
 bash 01-linux-terminal/sprawdz.sh <zadanie>
 ```
+
+Jeśli jesteś w folderze modułu (`01-linux-terminal`, np. po `cd` w zadaniu 3), wpisz krócej: `bash sprawdz.sh <zadanie>`.
 
 Zamiast `<zadanie>` wpisz: `srodowisko`, `struktura`, `logi`, `path` albo `wszystko`. Strażnik mówi, czego brakuje (linie `Brakuje: ...`). Nie podaje gotowych poleceń, bo to Ty masz je znaleźć. Gdy wszystko jest dobrze, wypisuje `OK` i kończy się kodem 0. Strażnik nie zmienia Twoich plików.
 
@@ -28,7 +30,7 @@ Wskazówki, gdy utkniesz: `man polecenie`, `polecenie --help`, notatki z prezent
 
 **Kroki.**
 
-1. Zainstaluj WSL 2 z Ubuntu (Windows) albo otwórz repozytorium w Codespaces. W Codespaces nvm i Git są już gotowe: wpisz tylko `nvm install --lts` i przejdź do sprawdzenia.
+1. Zainstaluj WSL 2 z Ubuntu (Windows) albo otwórz repozytorium w Codespaces. W Codespaces nvm i Git są już gotowe: wpisz tylko `nvm install --lts`, a potem `nvm alias default lts/*` (dzięki temu nowe terminale i strażnik używają tej wersji Node.js), i przejdź do sprawdzenia.
 2. Zainstaluj nvm (polecenia z głównego README), zamknij i otwórz terminal, a potem zainstaluj Node.js w aktualnej wersji LTS: `nvm install --lts`.
 3. Zainstaluj VS Code. W WSL otwórz go tak, żeby był połączony z Ubuntu. W Codespaces jest wbudowany.
 4. Sprawdź wersje: Node, npm i Git.
@@ -82,14 +84,14 @@ Wymagania:
 - `notatki/linux.txt` ma co najmniej 5 niepustych linii. Zapisz w nich własnymi słowami 5 poleceń, które poznałaś w module.
 - `skrypty/start.sh` jest skryptem basha. Wypisuje tekst `Start kursu`, a w następnej linii bieżący katalog (`pwd`). Ma prawo wykonywania dla właściciela, więc uruchamiasz go jako `./start.sh`.
 
-**Oczekiwany wynik.** Gdy wejdziesz do folderu `skrypty`, skrypt działa tak (ścieżka u Ciebie będzie inna):
+**Oczekiwany wynik.** Gdy wejdziesz do folderu `skrypty`, skrypt działa tak. Nazwa użytkownika, ścieżka, rozmiar pliku i data u Ciebie będą inne; ważne, żeby linia `ls -l` zaczynała się od `-rwx`:
 
 ```text
 uczen@pracownia:~/kurs/js-react-krasnik/01-linux-terminal/struktura/skrypty$ ./start.sh
 Start kursu
 /home/uczen/kurs/js-react-krasnik/01-linux-terminal/struktura/skrypty
 uczen@pracownia:~/kurs/js-react-krasnik/01-linux-terminal/struktura/skrypty$ ls -l start.sh
--rwxr-xr-x 1 uczen uczen 38 lis 14 10:00 start.sh
+-rwxr-xr-x 1 uczen uczen 43 Nov 14 19:46 start.sh
 ```
 
 **Sprawdzenie.**
@@ -154,6 +156,8 @@ Linie w logu: 2000
 bash 01-linux-terminal/sprawdz.sh logi
 ```
 
+Po `cd 01-linux-terminal` jesteś w folderze modułu, więc tam wpisz `bash sprawdz.sh logi` (albo wróć do głównego folderu: `cd ..`).
+
 ---
 
 ## Zadanie 4. Własne polecenie w PATH (ok. 0,5 h)
@@ -165,6 +169,12 @@ bash 01-linux-terminal/sprawdz.sh logi
 1. Utwórz folder `~/bin` i w nim skrypt `witaj` z prawem wykonywania. Skrypt wypisuje: `Cześć, <Twój użytkownik>! Node: <wersja Node>`. Użytkownika weź ze zmiennej `$USER`, a wersję z polecenia `node -v`.
 2. W pliku `~/.bashrc` dopisz dwie linie: dodanie `~/bin` do `PATH` oraz wyeksportowanie zmiennej `KURS_KATALOG`, która wskazuje główny folder Twojego repozytorium (czyli `~/kurs/js-react-krasnik`, a w Codespaces `/workspaces/js-react-krasnik`).
 3. Otwórz nowy terminal (albo wczytaj plik poleceniem `source ~/.bashrc`).
+
+**Gdy po zmianie `~/.bashrc` polecenia przestały działać.** Jeśli `ls`, `git`, `nano` albo `node` piszą `command not found`, linia z `PATH` w `~/.bashrc` zastąpiła całą listę katalogów zamiast ją uzupełnić. Napraw to tak:
+
+1. W tym terminalu wpisz `export PATH=/usr/local/bin:/usr/bin:/bin:$PATH`. Polecenia znowu działają, ale tylko w tym terminalu.
+2. Otwórz `~/.bashrc`: `nano ~/.bashrc` (zapis Ctrl+O, Enter, wyjście Ctrl+X) albo w VS Code **File → Open File…** i plik `.bashrc` w katalogu domowym. Popraw linię z `PATH`: musi kończyć się `:$PATH`, bo to dopisuje Twój katalog do dotychczasowej listy.
+3. Zapisz plik i otwórz nowy terminal.
 
 **Oczekiwany wynik.**
 
@@ -187,10 +197,16 @@ bash 01-linux-terminal/sprawdz.sh path
 
 ## Na koniec
 
-Uruchom wszystkie sprawdzenia naraz:
+Uruchom wszystkie sprawdzenia naraz, z głównego folderu repozytorium:
 
 ```bash
 bash 01-linux-terminal/sprawdz.sh wszystko
 ```
 
-Potem zapisz pracę w Gicie i wyślij do swojego forka (instrukcja w głównym README, sekcja „Jak oddać zadanie”). W module 2 wrócisz do folderu `struktura`.
+Gdy wszystkie cztery zadania są zaliczone (`OK`), zapisz wynik strażnika do pliku `wynik.txt`. Zadania 1 i 4 zmieniają rzeczy poza repozytorium (nvm, `~/bin`, `~/.bashrc`), więc autor kursu ocenia je właśnie z tego pliku:
+
+```bash
+bash 01-linux-terminal/sprawdz.sh wszystko > 01-linux-terminal/wynik.txt
+```
+
+Potem zapisz pracę w Gicie razem z plikiem `wynik.txt` i wyślij do swojego forka (instrukcja w głównym README, sekcja „Jak oddać zadanie”, np. `git commit -m "Moduł 1: ćwiczenia z terminala"`). W module 2 wrócisz do folderu `struktura`.

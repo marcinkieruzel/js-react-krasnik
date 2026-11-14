@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# Strażnik modułu 1. Użycie: bash 01-linux-terminal/sprawdz.sh <srodowisko|struktura|logi|path|wszystko>
-# Działa z dowolnego katalogu: ścieżki liczy od własnego położenia.
+# Strażnik modułu 1. Użycie (z głównego folderu repozytorium): bash 01-linux-terminal/sprawdz.sh <srodowisko|struktura|logi|path|wszystko>
+# W folderze modułu: bash sprawdz.sh <zadanie>. Ścieżki liczy od własnego położenia, nie od bieżącego katalogu.
+
+# Uruchomiony przez sh (np. sh sprawdz.sh) przechodzi do basha.
+[ -n "$BASH_VERSION" ] || exec bash "$0" "$@"
 
 MOD="$(dirname "$(realpath "$0")")"
 REPO="$(dirname "$MOD")"
@@ -198,16 +201,27 @@ zadanie_path() {
     echo "@@K=$KURS_KATALOG"
     echo "@@O=$(witaj 2>&1)"
     echo "@@N=$(node -v 2>&1)"
+    echo "@@P=$PATH"
   ' 2>/dev/null </dev/null)"
-  local sciezka katalog powitanie wersja
+  local sciezka katalog powitanie wersja nowy_path
   sciezka="$(sed -n 's/^@@W=//p' <<<"$wynik")"
   katalog="$(sed -n 's/^@@K=//p' <<<"$wynik")"
   powitanie="$(sed -n 's/^@@O=//p' <<<"$wynik")"
   wersja="$(sed -n 's/^@@N=//p' <<<"$wynik")"
+  nowy_path="$(sed -n 's/^@@P=//p' <<<"$wynik")"
 
+  # Częste pomyłki w ~/.bashrc: PATH bez :$PATH na końcu i tylda w cudzysłowie (nie jest rozwijana).
+  if [[ -n "$wynik" ]] && ! tr ':' '\n' <<<"$nowy_path" | grep -qxF /usr/bin; then
+    brak "w PATH ustawionym przez ~/.bashrc katalogów systemowych (/usr/bin): linia z PATH ma kończyć się :\$PATH, żeby dopisać ~/bin do listy, a nie ją zastąpić (naprawa: README, zadanie 4)"
+  fi
+  if tr ':' '\n' <<<"$nowy_path" | grep -q '^~'; then
+    info "w PATH jest katalog z tyldą w cudzysłowie (np. \"~/bin\"). Bash go rozumie, ale inne programy nie: bezpieczniej zapisać \$HOME/bin"
+  fi
   [[ "$sciezka" == "$HOME/bin/witaj" ]] || brak "~/bin w PATH ustawionego w ~/.bashrc (nowy terminal nie widzi polecenia witaj)"
   if [[ -z "$katalog" ]]; then
     brak "wyeksportowanej zmiennej KURS_KATALOG w ~/.bashrc"
+  elif [[ "$katalog" == "~"* ]]; then
+    brak "w KURS_KATALOG rozwiniętej ścieżki: jest \"${katalog:0:60}\", bo tylda w cudzysłowie nie jest rozwijana (użyj \$HOME)"
   elif [[ "$(realpath "$katalog" 2>/dev/null)" != "$(realpath "$REPO")" ]]; then
     brak "w KURS_KATALOG ścieżki do głównego folderu Twojego repozytorium kursu"
   fi
@@ -228,7 +242,8 @@ case "${1:-}" in
   srodowisko | struktura | logi | path) uruchom "$1" ;;
   wszystko) for z in srodowisko struktura logi path; do uruchom "$z"; done ;;
   *)
-    echo "Użycie: bash 01-linux-terminal/sprawdz.sh <srodowisko|struktura|logi|path|wszystko>"
+    echo "Użycie (z głównego folderu repozytorium): bash 01-linux-terminal/sprawdz.sh <srodowisko|struktura|logi|path|wszystko>"
+    echo "W folderze modułu 01-linux-terminal: bash sprawdz.sh <zadanie>"
     exit 2
     ;;
 esac
