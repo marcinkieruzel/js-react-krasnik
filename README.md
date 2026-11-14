@@ -6,13 +6,13 @@ Projekt „Kształcenie zawodowe – nowe perspektywy” współfinansowany ze �
 
 Ćwiczenia do kursu „JavaScript Developer React” (Technikum nr 2 w Kraśniku). Uczysz się sama, we własnym tempie, na platformie Python Lab. Teorię masz w prezentacjach, a praktykę w tym repozytorium: każdy moduł ma swój folder z zadaniami i skryptem, który sprawdza Twoją pracę.
 
-To repozytorium jest szablonem. Nie pracujesz w nim bezpośrednio. Tworzysz własną kopię i w niej zapisujesz swoje rozwiązania.
+To repozytorium jest wzorem kursu. Nie pracujesz w nim bezpośrednio. Tworzysz własną kopię (fork) i w niej zapisujesz swoje rozwiązania.
 
 ## Jak zacząć
 
-1. Na stronie tego repozytorium na GitHubie kliknij zielony przycisk **Use this template**, a potem **Create a new repository**.
-2. Nadaj kopii nazwę, na przykład `js-react-krasnik`. Możesz wybrać repozytorium prywatne albo publiczne. Decyzja należy do Ciebie.
-3. Sklonuj swoją kopię na komputer przez HTTPS (w terminalu WSL, w katalogu domowym):
+1. Zaloguj się na GitHubie i otwórz stronę `github.com/marcinkieruzel/js-react-krasnik`.
+2. Kliknij **Fork**, a potem **Create fork**. Powstaje Twoja własna kopia repozytorium. Będzie publiczna, bo tak działają forki publicznych repozytoriów. To normalne w kursach: Twoje rozwiązania staną się portfolio, które możesz pokazać innym.
+3. Sklonuj swój fork na komputer przez HTTPS (w terminalu WSL, w katalogu domowym):
 
 ```bash
 cd ~
@@ -22,7 +22,7 @@ cd js-react-krasnik
 
    Po module 2 będziesz mieć klucz SSH i wtedy możesz klonować tak: `git clone git@github.com:TWOJ-LOGIN/js-react-krasnik.git`. Na początku używaj HTTPS, bo SSH bez klucza nie zadziała.
 
-   Pracujesz w GitHub Codespaces zamiast na własnym komputerze? Na stronie swojej kopii kliknij **Code → Codespaces → Create codespace on main**. Repozytorium jest tam od razu otwarte, więc pomiń `cd ~` i `git clone`.
+   Pracujesz w GitHub Codespaces zamiast na własnym komputerze? Na stronie swojego forka kliknij **Code → Codespaces → Create codespace on main**. Repozytorium jest tam od razu otwarte, więc pomiń `cd ~` i `git clone`.
 
 ### Dane do commitów
 
@@ -31,6 +31,12 @@ Zanim zrobisz pierwszy commit, ustaw w Gicie swoje imię i adres e-mail. To obow
 ```bash
 git config --global user.name "Ola Nowak"
 git config --global user.email "ola.nowak@example.com"
+```
+
+Ustaw też raz sposób łączenia zmian przy `git pull`. Dzięki temu Git zwyczajnie połączy zmiany, zamiast zatrzymywać się z błędem:
+
+```bash
+git config --global pull.rebase false
 ```
 
 Jeśli nie chcesz, żeby Twój prawdziwy adres był widoczny w historii, na GitHubie wejdź w **Settings → Emails** i użyj adresu `…@users.noreply.github.com`, który tam znajdziesz.
@@ -71,25 +77,21 @@ Każdy moduł zaczyna się od krótkiego opisu w jego `README.md`. Czytaj go prz
 
 ## Nowe moduły
 
-Foldery kolejnych modułów pojawiają się w szablonie z czasem. Żeby pobrać je do swojej kopii, połącz ją z szablonem. Robisz to tylko raz:
+Foldery kolejnych modułów pojawiają się w repozytorium kursu z czasem. Żeby pobrać je do swojego forka:
+
+1. Na stronie swojego forka na GitHubie kliknij **Sync fork**, a potem **Update branch**.
+2. W terminalu, w folderze repozytorium, wpisz:
 
 ```bash
-git remote add szablon https://github.com/marcinkieruzel/js-react-krasnik.git
-git pull szablon main --allow-unrelated-histories
+git pull
 ```
 
-Później wystarczy:
-
-```bash
-git pull szablon main
-```
-
-Czym jest `remote`, wyjaśnia moduł 2. Żeby uniknąć konfliktów, nie zmieniaj plików poza folderami modułów, nad którymi pracujesz.
+Jeśli GitHub zgłosi konflikt (zdarza się tylko wtedy, gdy autor kursu zmienił plik, który Ty też edytowałaś), niczego nie usuwaj. Napisz do opiekuna kursu przez platformę Python Lab. Czym jest fork i zdalne repozytorium (remote), wyjaśnia moduł 2.
 
 ## Jak oddać zadanie
 
 1. Skończ zadanie i uruchom skrypt sprawdzający z folderu modułu.
-2. Zapisz zmiany w Gicie:
+2. Zapisz zmiany w Gicie i wyślij je do swojego forka:
 
 ```bash
 git add -A
@@ -97,7 +99,7 @@ git commit -m "Moduł 1: ćwiczenia"
 git push
 ```
 
-3. Na platformie Python Lab otwórz formularz zadań i wklej link do swojego repozytorium. Jeśli repozytorium jest prywatne, dodaj konto `marcinkieruzel` jako współpracownika (Settings → Collaborators).
+3. Na platformie Python Lab otwórz formularz zadań i wklej link do swojego forka.
 
 ## Kontakt
 
